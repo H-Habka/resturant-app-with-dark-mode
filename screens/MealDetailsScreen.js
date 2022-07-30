@@ -1,34 +1,15 @@
-import {
-    View,
-    Text,
-    Image,
-    FlatList,
-    ScrollView,
-    Dimensions,
-} from "react-native";
+import { View, Image, FlatList, useWindowDimensions } from "react-native";
 import tw from "tailwind-react-native-classnames";
 import { useTheme } from "@react-navigation/native";
 import { MEALS } from "../data/DummyData";
 import RegularText from "../components/RegularText";
 import BoldText from "../components/BoldText";
-import { useEffect, useState } from "react";
 
 const MealDetailsScreen = ({ route }) => {
     const { mealId } = route.params;
     const { colors } = useTheme();
-    const [screenWidth, setScreenWidth] = useState(
-        Dimensions.get("window").width
-    );
+    const windowDimensions = useWindowDimensions();
     const item = MEALS.filter((item) => item.id === mealId)[0];
-
-    useEffect(() => {
-        let listener = Dimensions.addEventListener("change", () => {
-            setScreenWidth(Dimensions.get("window").width);
-        });
-        return () => {
-            listener.remove();
-        };
-    }, []);
 
     const HeaderItem = () => (
         <View>
@@ -77,7 +58,7 @@ const MealDetailsScreen = ({ route }) => {
     );
 
     const layoutArraySmall = [
-        <View style={'h-20'}>
+        <View style={"h-20"}>
             <HeaderItem />
         </View>,
         <FlatListComponent data={item.ingrediants} title="Ingrediants" />,
@@ -89,9 +70,8 @@ const MealDetailsScreen = ({ route }) => {
         <FlatListComponent data={item.steps} title="Steps" />,
     ];
 
-    console.log(item);
 
-    if (screenWidth <= 360) {
+    if (windowDimensions.width <= 360) {
         return (
             <View style={[tw``]}>
                 <FlatList

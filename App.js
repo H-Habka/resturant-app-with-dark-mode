@@ -1,14 +1,14 @@
 import "react-native-gesture-handler";
-import {Appearance} from "react-native";
 import { useCallback, useEffect, useState } from "react";
-import { NavigationContainer} from "@react-navigation/native";
+import { NavigationContainer } from "@react-navigation/native";
 import * as Font from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
-import {enableScreens} from 'react-native-screens'
+import { enableScreens } from "react-native-screens";
 import { StatusBar } from "expo-status-bar";
 import { DefaultTheme } from "@react-navigation/native";
 import DrawerNavigator from "./navigators/DrawerNavigator";
-import BottomTabNavigator from "./navigators/BottomTabNavigator";
+import { Provider } from "react-redux";
+import { store } from "./redux/store";
 
 const CustomTheme = {
     ...DefaultTheme,
@@ -22,7 +22,7 @@ const CustomTheme = {
     },
 };
 
-enableScreens()   // increase the performance in larger apps
+enableScreens(); // increase the performance in larger apps
 
 const addFonts = () => {
     return Font.loadAsync({
@@ -33,7 +33,7 @@ const addFonts = () => {
 
 SplashScreen.preventAutoHideAsync();
 
-export default function App() {
+function App() {
     const [appIsReady, setAppIsReady] = useState(false);
 
     useEffect(() => {
@@ -60,10 +60,18 @@ export default function App() {
     }
 
     return (
-        <NavigationContainer onReady={onLayoutRootView} theme={CustomTheme} >
+        <NavigationContainer onReady={onLayoutRootView} theme={CustomTheme}>
             {/* <BottomTabNavigator /> */}
             <DrawerNavigator />
-            <StatusBar style="light"/>
+            <StatusBar style="light" />
         </NavigationContainer>
+    );
+}
+
+export default function reduxWrapper() {
+    return (
+        <Provider store={store}>
+            <App />
+        </Provider>
     );
 }

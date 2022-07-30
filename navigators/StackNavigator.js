@@ -10,6 +10,7 @@ import {
 import { useTheme } from "@react-navigation/native";
 import { AntDesign } from "@expo/vector-icons";
 import tw from "tailwind-react-native-classnames";
+import { FontAwesome5 } from "@expo/vector-icons";
 
 const Stack = createNativeStackNavigator();
 
@@ -19,32 +20,35 @@ const StackNavigator = () => {
     return (
         <Stack.Navigator
             initialRouteName="Categories"
-            screenOptions={({navigation}) => ({
+            screenOptions={({ navigation }) => ({
                 headerStyle: {
                     backgroundColor: colors.one,
                 },
                 headerTintColor: colors.four,
                 headerTitleStyle: { fontFamily: "serif-bold", fontSize: 24 },
                 presentation: "card",
-                headerLeft: () => {
-                    return (
-                        <TouchableOpacity style={[tw`p-2 px-4`]} onPress={() => navigation.openDrawer()}>
-                            <AntDesign
-                                name="staro"
-                                size={24}
-                                color={"yellow"}
-                            />
-                        </TouchableOpacity>
-                    );
-                },
             })}
         >
             <Stack.Screen
                 name="Categories"
                 component={CategoriesScreen}
-                options={{
+                options={({navigation}) => ({
                     title: "Meal Categorys",
-                }}
+                    headerLeft: () => {
+                        return (
+                            <TouchableOpacity
+                                style={[tw`p-2 px-4`]}
+                                onPress={() => navigation.openDrawer()}
+                            >
+                                <FontAwesome5
+                                    name="hamburger"
+                                    size={24}
+                                    color={colors.three}
+                                />
+                            </TouchableOpacity>
+                        );
+                    },
+                })}
             />
             <Stack.Screen
                 name="CategoryMeals"
