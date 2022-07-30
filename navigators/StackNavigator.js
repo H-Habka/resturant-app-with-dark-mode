@@ -11,11 +11,21 @@ import { useTheme } from "@react-navigation/native";
 import { AntDesign } from "@expo/vector-icons";
 import tw from "tailwind-react-native-classnames";
 import { FontAwesome5 } from "@expo/vector-icons";
+import {
+    addToFavorites,
+    removeFromFavorits,
+    toggleIsFavorite
+} from "../redux/Features/MealsSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 const Stack = createNativeStackNavigator();
 
 const StackNavigator = () => {
     const { colors } = useTheme();
+    const dispatch = useDispatch();
+    const favoriteMeals = useSelector(
+        (state) => state.MealsSlice.favoriteMeals
+    );
 
     return (
         <Stack.Navigator
@@ -32,7 +42,7 @@ const StackNavigator = () => {
             <Stack.Screen
                 name="Categories"
                 component={CategoriesScreen}
-                options={({navigation}) => ({
+                options={({ navigation }) => ({
                     title: "Meal Categorys",
                     headerLeft: () => {
                         return (
@@ -64,13 +74,26 @@ const StackNavigator = () => {
                 name="MealDetails"
                 component={MealDetailsScreen}
                 options={({ route }) => {
+                    let isFavorite = false;
+                    if (favoriteMeals.indexOf(route.params.mealId) >= 0) {
+                        isFavorite = true;
+                    }
                     return {
                         title: route.params.title,
                         headerRight: () => {
                             return (
-                                <TouchableOpacity style={[tw`p-2 px-4`]}>
+                                <TouchableOpacity
+                                    style={[tw`p-2 px-4`]}
+                                    onPress={() =>
+                                        dispatch(
+                                            toggleIsFavorite(
+                                                route.params.mealId
+                                            )
+                                        )
+                                    }
+                                >
                                     <AntDesign
-                                        name="staro"
+                                        name={isFavorite ? "star" : "staro"}
                                         size={24}
                                         color={"yellow"}
                                     />

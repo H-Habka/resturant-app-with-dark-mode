@@ -1,16 +1,22 @@
 import React, { useEffect, useState } from "react";
-import { Dimensions, FlatList, View, Text, useWindowDimensions } from "react-native";
+import {
+    Dimensions,
+    FlatList,
+    View,
+    Text,
+    useWindowDimensions,
+} from "react-native";
 import tw from "tailwind-react-native-classnames";
 import MealItem from "./MealItem";
+import BoldText from "./BoldText";
 
 const MealsList = ({ data, navigationHandler }) => {
-    const windowDimensions = useWindowDimensions()
-    const [refresh, setRefresh] = useState(true);
-    setTimeout(() => {
-        setRefresh(false);
-    }, 2000);
+    const windowDimensions = useWindowDimensions();
+    // const [refresh, setRefresh] = useState(true);
+    // setTimeout(() => {
+    //     setRefresh(false);
+    // }, 2000);
 
-    
     return (
         <View style={[tw`p-2`]}>
             <FlatList
@@ -24,10 +30,15 @@ const MealsList = ({ data, navigationHandler }) => {
                 //     </View>
                 // )}
                 // stickyHeaderIndices={[0]}
-                onRefresh={() => {
-                    console.log("hello");
-                }}
-                refreshing={refresh}
+                // onRefresh={() => {
+                //     console.log("hello");
+                // }}
+                // refreshing={refresh}
+                ListEmptyComponent={() => (
+                    <View style={[tw``]}>
+                        <BoldText style={[tw`p-2 text-xl text-center`]}>No Items Found</BoldText>
+                    </View>
+                )}
                 showsHorizontalScrollIndicator={false}
                 showsVerticalScrollIndicator={false}
                 key={windowDimensions.width <= 360 ? 1 : 2}

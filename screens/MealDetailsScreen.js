@@ -4,12 +4,16 @@ import { useTheme } from "@react-navigation/native";
 import { MEALS } from "../data/DummyData";
 import RegularText from "../components/RegularText";
 import BoldText from "../components/BoldText";
+import { useSelector } from "react-redux";
 
 const MealDetailsScreen = ({ route }) => {
     const { mealId } = route.params;
     const { colors } = useTheme();
+    const { meals } = useSelector((state) => ({
+        ...state.MealsSlice,
+    }));
     const windowDimensions = useWindowDimensions();
-    const item = MEALS.filter((item) => item.id === mealId)[0];
+    const item = meals.filter((item) => item.id === mealId)[0];
 
     const HeaderItem = () => (
         <View>

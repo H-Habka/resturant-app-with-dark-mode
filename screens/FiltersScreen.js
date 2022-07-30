@@ -1,27 +1,28 @@
-import { View, Text, TouchableOpacity, Switch } from "react-native";
+import { View, TouchableOpacity, Switch } from "react-native";
 import tw from "tailwind-react-native-classnames";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { useTheme } from "@react-navigation/native";
 import BoldText from "../components/BoldText";
 import RegularText from "../components/RegularText";
 import { FontAwesome5 } from "@expo/vector-icons";
-import { FontAwesome } from "@expo/vector-icons";
-import { useState } from "react";
-import { Entypo } from '@expo/vector-icons';
-import { color } from "react-native-reanimated";
-import {useDispatch} from 'react-redux'
+import { Entypo } from "@expo/vector-icons";
+import { useDispatch, useSelector } from "react-redux";
+import { setFilters } from "../redux/Features/MealsSlice";
 
 const Stack = createNativeStackNavigator();
 
 const FilterItem = ({ value, setValue, title }) => {
     const { colors } = useTheme();
+
     return (
         <View style={[tw`flex-row items-center w-full justify-between p-1`]}>
             <RegularText style={[tw`text-xl`]}>{title}</RegularText>
             <Switch
                 thumbColor={colors.two}
                 trackColor={{ true: colors.two }}
-                onValueChange={(state) => setValue(state)}
+                onValueChange={(switchState) =>
+                    setValue({ filter: `is${title}`, value: switchState })
+                }
                 value={value}
             />
         </View>
@@ -29,10 +30,15 @@ const FilterItem = ({ value, setValue, title }) => {
 };
 
 const FilterPage = () => {
-    const [isGlutenFree, setIsGlutenFree] = useState(false);
-    const [isVegan, setIsVegan] = useState(false);
-    const [isVegettarian, setIsVegettarian] = useState(false)
-    const [isLactoseFree, setIsLactoseFree] = useState(false)
+    const dispatch = useDispatch();
+    const { isGlutenFree, isVegan, isVegettarian, isLactoseFree } = useSelector(
+        (state) => ({ ...state.MealsSlice.filters })
+    );
+
+    const setFiltersArray = (filterItem) => {
+        const { filter, value } = filterItem;
+        dispatch(setFilters({ filter, value }));
+    };
     return (
         <View>
             <BoldText style={[tw`text-2xl text-center mt-2`]}>
@@ -41,22 +47,22 @@ const FilterPage = () => {
             <View style={[tw`w-9/12 mx-auto mt-6`]}>
                 <FilterItem
                     value={isGlutenFree}
-                    setValue={setIsGlutenFree}
+                    setValue={setFiltersArray}
                     title="GlutenFree"
                 />
                 <FilterItem
                     value={isVegan}
-                    setValue={setIsVegan}
+                    setValue={setFiltersArray}
                     title="Vegan"
                 />
                 <FilterItem
                     value={isVegettarian}
-                    setValue={setIsVegettarian}
+                    setValue={setFiltersArray}
                     title="Vegettarian"
                 />
                 <FilterItem
                     value={isLactoseFree}
-                    setValue={setIsLactoseFree}
+                    setValue={setFiltersArray}
                     title="LactoseFree"
                 />
             </View>
@@ -93,9 +99,11 @@ const FiltersScreen = () => {
                     return (
                         <TouchableOpacity
                             style={[tw`py-2 px-4`]}
-                            onPress={() => navigation.navigate("Categories")}
+                            onPress={() => {
+                                navigation.navigate("Categories");
+                            }}
                         >
-                            <Entypo name="check" size={28} color={'green'} />
+                            <Entypo name="check" size={28} color={"green"} />
                         </TouchableOpacity>
                     );
                 },

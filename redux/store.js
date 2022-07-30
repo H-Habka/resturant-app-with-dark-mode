@@ -1,7 +1,7 @@
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
-import FiltersSlice from "./Features/FiltersSlice";
+import MealsSlice from "./Features/MealsSlice";
 
-const rootReducer = combineReducers({ FiltersSlice });
+const rootReducer = combineReducers({ MealsSlice });
 
 export const store = configureStore({
     reducer: rootReducer,
