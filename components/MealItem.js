@@ -3,8 +3,8 @@ import tw from "tailwind-react-native-classnames";
 import { useTheme } from "@react-navigation/native";
 import RegularText from "./RegularText";
 
-const MealItem = ({ item, navigationHandler }) => {
-    const { colors } = useTheme();
+const MealItem = ({ item, navigationHandler, style }) => {
+    const { colors,dark } = useTheme();
     return (
         <TouchableOpacity
             onPress={() => navigationHandler({
@@ -12,7 +12,7 @@ const MealItem = ({ item, navigationHandler }) => {
                 title: item.title,
             })}
 
-            style={[tw`flex-1 mx-2 rounded-xl overflow-hidden my-2`]}
+            style={[tw`rounded-xl overflow-hidden m-2`,{...style}]}
         >
             <View style={[tw`relative`]}>
                 <Image
@@ -28,7 +28,7 @@ const MealItem = ({ item, navigationHandler }) => {
                     <RegularText
                         style={[
                             tw`text-center`,
-                            { fontSize: 17, color: colors.five },
+                            { fontSize: 17, color: 'white' },
                         ]}
                     >
                         {item.title}
@@ -39,12 +39,12 @@ const MealItem = ({ item, navigationHandler }) => {
             <View
                 style={[
                     tw`flex-row justify-between p-2`,
-                    { backgroundColor: colors.five },
+                    { backgroundColor: dark? colors.background2: colors.five },
                 ]}
             >
-                <RegularText>{item.duration} m</RegularText>
-                <RegularText>{item.complexity}</RegularText>
-                <RegularText>{item.affordability}</RegularText>
+                <RegularText style={{color : colors.text}}>{item.duration} m</RegularText>
+                <RegularText style={{color : colors.text}}>{item.complexity}</RegularText>
+                <RegularText style={{color : colors.text}}>{item.affordability}</RegularText>
             </View>
         </TouchableOpacity>
     );

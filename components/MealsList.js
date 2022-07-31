@@ -9,9 +9,11 @@ import {
 import tw from "tailwind-react-native-classnames";
 import MealItem from "./MealItem";
 import BoldText from "./BoldText";
+import { useTheme } from "@react-navigation/native";
 
 const MealsList = ({ data, navigationHandler }) => {
     const windowDimensions = useWindowDimensions();
+    const {colors}  = useTheme()
     // const [refresh, setRefresh] = useState(true);
     // setTimeout(() => {
     //     setRefresh(false);
@@ -36,7 +38,9 @@ const MealsList = ({ data, navigationHandler }) => {
                 // refreshing={refresh}
                 ListEmptyComponent={() => (
                     <View style={[tw``]}>
-                        <BoldText style={[tw`p-2 text-xl text-center`]}>No Items Found</BoldText>
+                        <BoldText style={[tw`p-2 text-xl text-center` ,{color : colors.text}]}>
+                            No Items Found
+                        </BoldText>
                     </View>
                 )}
                 showsHorizontalScrollIndicator={false}
@@ -52,6 +56,9 @@ const MealsList = ({ data, navigationHandler }) => {
                 data={data}
                 renderItem={({ item }) => (
                     <MealItem
+                        style={{
+                            flex: windowDimensions.width <= 360 ? 1 : 1 / 2,
+                        }}
                         item={item}
                         navigationHandler={navigationHandler}
                     />

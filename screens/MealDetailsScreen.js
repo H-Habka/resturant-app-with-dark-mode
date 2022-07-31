@@ -8,7 +8,7 @@ import { useSelector } from "react-redux";
 
 const MealDetailsScreen = ({ route }) => {
     const { mealId } = route.params;
-    const { colors } = useTheme();
+    const { colors,dark } = useTheme();
     const { meals } = useSelector((state) => ({
         ...state.MealsSlice,
     }));
@@ -26,15 +26,15 @@ const MealDetailsScreen = ({ route }) => {
             <View
                 style={[
                     tw`flex-row justify-between p-2`,
-                    { backgroundColor: colors.five },
+                    { backgroundColor: dark ? colors.background2 : colors.five },
                 ]}
             >
-                <RegularText>{item.duration} m</RegularText>
-                <RegularText>{item.complexity}</RegularText>
-                <RegularText>{item.affordability}</RegularText>
+                <RegularText style={{color : colors.text}}>{item.duration} m</RegularText>
+                <RegularText style={{color : colors.text}}>{item.complexity}</RegularText>
+                <RegularText style={{color : colors.text}}>{item.affordability}</RegularText>
             </View>
             <View style={[tw``]}>
-                <BoldText style={[tw`text-xl mt-2 px-2`]}>
+                <BoldText style={[tw`text-xl mt-2 px-2`, {color : colors.text}]}>
                     {item.title}
                 </BoldText>
             </View>
@@ -43,7 +43,7 @@ const MealDetailsScreen = ({ route }) => {
 
     const FlatListComponent = ({ data, title }) => (
         <View>
-            <BoldText style={[tw`text-center text-lg mt-4`]}>{title}</BoldText>
+            <BoldText style={[tw`text-center text-lg mt-4`,{color: colors.text}]}>{title}</BoldText>
             <FlatList
                 nestedScrollEnabled
                 // style={[tw`h-48`]}
@@ -51,8 +51,8 @@ const MealDetailsScreen = ({ route }) => {
                 keyExtractor={(item, idx) => idx}
                 data={data}
                 renderItem={({ item }) => (
-                    <View style={[tw`border m-2`]}>
-                        <RegularText style={[tw`p-1 text-lg`]}>
+                    <View style={[tw`border m-2`, {borderColor : colors.border}]}>
+                        <RegularText style={[tw`p-1 text-lg`,{color : colors.text}]}>
                             {item}
                         </RegularText>
                     </View>
@@ -96,12 +96,12 @@ const MealDetailsScreen = ({ route }) => {
                     <View
                         style={[
                             tw`flex-row justify-between p-1 opacity-70 absolute w-full`,
-                            { backgroundColor: colors.five },
+                            { backgroundColor: dark ? colors.background2 : colors.five },
                         ]}
                     >
-                        <BoldText>{item.duration} m</BoldText>
-                        <BoldText>{item.complexity}</BoldText>
-                        <BoldText>{item.affordability}</BoldText>
+                        <BoldText style={{color : colors.text}}>{item.duration} m</BoldText>
+                        <BoldText style={{color : colors.text}}>{item.complexity}</BoldText>
+                        <BoldText style={{color : colors.text}}>{item.affordability}</BoldText>
                     </View>
                 </View>
                 <FlatList

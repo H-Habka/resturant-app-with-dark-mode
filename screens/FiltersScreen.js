@@ -12,14 +12,14 @@ import { setFilters } from "../redux/Features/MealsSlice";
 const Stack = createNativeStackNavigator();
 
 const FilterItem = ({ value, setValue, title }) => {
-    const { colors } = useTheme();
+    const { colors, dark } = useTheme();
 
     return (
         <View style={[tw`flex-row items-center w-full justify-between p-1`]}>
-            <RegularText style={[tw`text-xl`]}>{title}</RegularText>
+            <RegularText style={[tw`text-xl`, {color : colors.text}]}>{title}</RegularText>
             <Switch
                 thumbColor={colors.two}
-                trackColor={{ true: colors.two }}
+                trackColor={{ true: colors.two, false :dark ? colors.background2 : null  }}
                 onValueChange={(switchState) =>
                     setValue({ filter: `is${title}`, value: switchState })
                 }
@@ -71,12 +71,12 @@ const FilterPage = () => {
 };
 
 const FiltersScreen = () => {
-    const { colors } = useTheme();
+    const { colors , dark} = useTheme();
     return (
         <Stack.Navigator
             screenOptions={({ navigation }) => ({
                 headerStyle: {
-                    backgroundColor: colors.one,
+                    backgroundColor: dark ? colors.background2 :colors.one,
                 },
                 headerTintColor: colors.four,
                 headerTitleStyle: { fontFamily: "serif-bold", fontSize: 24 },

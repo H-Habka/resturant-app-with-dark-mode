@@ -11,7 +11,7 @@ import { toggleIsFavorite } from "../redux/Features/MealsSlice";
 const Stack = createNativeStackNavigator();
 
 const FavoritsStackNavigator = () => {
-    const { colors } = useTheme();
+    const { colors, dark } = useTheme();
     const favoriteMeals = useSelector(
         (state) => state.MealsSlice.favoriteMeals
     );
@@ -21,7 +21,7 @@ const FavoritsStackNavigator = () => {
             initialRouteName="favoritsScreen"
             screenOptions={({ navigation }) => ({
                 headerStyle: {
-                    backgroundColor: colors.one,
+                    backgroundColor: dark ? colors.background2 :colors.one,
                 },
                 headerTintColor: colors.four,
                 headerTitleStyle: { fontFamily: "serif-bold", fontSize: 24 },

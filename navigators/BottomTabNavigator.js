@@ -26,7 +26,6 @@ const BottomTabNavigator = () => {
                     tabBarIcon: (tabinfo) => (
                         <Ionicons name="ios-restaurant" size={24} color={tabinfo.color} />
                     ),
-                    tabBarActiveTintColor: colors.one,
                 }}
             />
             <BottomNavigator.Screen

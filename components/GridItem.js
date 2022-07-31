@@ -3,11 +3,11 @@ import BoldText from "./BoldText";
 import tw from "tailwind-react-native-classnames";
 import { useTheme } from "@react-navigation/native";
 
-const GridItem = ({ item, navigation }) => {
+const GridItem = ({ item, navigation, style }) => {
     const { colors } = useTheme();
     return (
         <TouchableOpacity
-            style={[tw`flex-1 m-2`]}
+            style={[tw`border-2 border-white`,{...style, }]}
             onPress={() => {
                 navigation.navigate("CategoryMeals", {
                     catId: item.id,

@@ -10,6 +10,7 @@ const initialState = {
         isLactoseFree: false,
     },
     favoriteMeals: [],
+    isDarkMode: false,
 };
 
 const MealsSlice = createSlice({
@@ -30,13 +31,14 @@ const MealsSlice = createSlice({
                 state.favoriteMeals.push(action.payload);
             }
         },
+        toggleDarkMode: (state) => {
+            state.isDarkMode = !state.isDarkMode;
+        },
     },
     extraReducers: {},
 });
 
-export const {
-    setFilters,
-    toggleIsFavorite,
-} = MealsSlice.actions;
+export const { setFilters, toggleIsFavorite, toggleDarkMode } =
+    MealsSlice.actions;
 
 export default MealsSlice.reducer;
